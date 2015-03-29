@@ -15,6 +15,10 @@ Calculator.Layout = Marionette.LayoutView.extend({
         this.form.show(
             new Calculator.MaxForm()
         );
+
+        this.workouts.show(
+            new Calculator.WorkoutsLayout()
+        )
     }
 });
 
@@ -27,6 +31,38 @@ Calculator.MaxForm = Marionette.ItemView.extend({
 
     calculate: function () {
         console.log("calculate");
+    }
+});
+
+Calculator.WorkoutTable = Marionette.ItemView.extend({
+    template: "#workouts-table-tpl",
+    tagName: "table",
+    className: "table"
+});
+
+Calculator.WorkoutsLayout = Marionette.LayoutView.extend({
+    template: "#workouts-layout-tpl",
+    className: "row",
+    regions: {
+        squat: ".squat-container",
+        bench: ".bench-container",
+        ohp: ".ohp-container",
+        deadlift: ".deadlift-container"
+    },
+
+    onRender: function () {
+        this.squat.show(
+            new Calculator.WorkoutTable()
+        );
+        this.bench.show(
+            new Calculator.WorkoutTable()
+        );
+        this.ohp.show(
+            new Calculator.WorkoutTable()
+        );
+        this.deadlift.show(
+            new Calculator.WorkoutTable()
+        );
     }
 });
 

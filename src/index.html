@@ -27,84 +27,8 @@
 
 
 <script id="calculator-tpl" type="text/html">
-    <div class="form-container">
-    </div>
-    <div class="workouts-container">
-        <div class="row">
-            <div class="col-xs-12 col-md-3">
-                <h3>Squat</h3>
-                <table class="table">
-                    <thead>
-                    <th class="active">Week 1</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>8 @ 65%</td>
-                    </tr>
-                    <tr>
-                        <td>8 @ 75%</td>
-                    </tr>
-                    <tr>
-                        <td>8+ @ 80%</td>
-                    </tr>
-                    </tbody>
-                    <thead>
-                    <th class="active">Week 2</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>6 @ 70%</td>
-                    </tr>
-                    <tr>
-                        <td>6 @ 80%</td>
-                    </tr>
-                    <tr>
-                        <td>6+ @ 85%</td>
-                    </tr>
-                    </tbody>
-                    <thead>
-                    <th class="active">Week 3</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>8 @ 75%</td>
-                    </tr>
-                    <tr>
-                        <td>6 @ 85%</td>
-                    </tr>
-                    <tr>
-                        <td>3+ @ 90%</td>
-                    </tr>
-                    </tbody>
-                    <th class="active">Week 4, Deload</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>8 @ 40%</td>
-                    </tr>
-                    <tr>
-                        <td>8 @ 50%</td>
-                    </tr>
-                    <tr>
-                        <td>8 @ 60%</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xs-12 col-md-3">
-                <h3>Bench press</h3>
-                <table class="table"></table>
-            </div>
-            <div class="col-xs-12 col-md-3">
-                <h3>OHP</h3>
-                <table class="table"></table>
-            </div>
-            <div class="col-xs-12 col-md-3">
-                <h3>Deadlift</h3>
-                <table class="table"></table>
-            </div>
-        </div>
-    </div>
+    <div class="form-container"></div>
+    <div class="workouts-container"></div>
 </script>
 
 <script id="maxform-tpl" type="text/html">
@@ -132,6 +56,83 @@
             Clear
         </button>
     </div>
+</script>
+
+
+<script id="workouts-layout-tpl" type="text/html">
+        <div class="col-xs-12 col-md-3">
+            <h3>Squat</h3>
+            <div class="squat-container"></div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <h3>Bench press</h3>
+        <div class="bench-container"></div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <h3>OHP</h3>
+        <div class="ohp-container"></div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <h3>Deadlift</h3>
+        <div class="deadlift-container"></div>
+    </div>
+</script>
+
+<script id="workouts-table-tpl" type="text/html">
+        <thead>
+            <th class="active">Week 1</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>8 @ 65%</td>
+            </tr>
+            <tr>
+                <td>8 @ 75%</td>
+            </tr>
+            <tr>
+                <td>8+ @ 80%</td>
+            </tr>
+        </tbody>
+        <thead>
+            <th class="active">Week 2</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>6 @ 70%</td>
+            </tr>
+            <tr>
+                <td>6 @ 80%</td>
+            </tr>
+            <tr>
+                <td>6+ @ 85%</td>
+            </tr>
+        </tbody>
+        <thead>
+            <th class="active">Week 3</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>8 @ 75%</td>
+            </tr>
+            <tr>
+                <td>6 @ 85%</td>
+            </tr>
+            <tr>
+                <td>3+ @ 90%</td>
+            </tr>
+        </tbody>
+        <th class="active">Week 4, Deload</th>
+        <tbody>
+            <tr>
+                <td>8 @ 40%</td>
+            </tr>
+            <tr>
+                <td>8 @ 50%</td>
+            </tr>
+            <tr>
+                <td>8 @ 60%</td>
+            </tr>
+        </tbody>
 </script>
 
 <!-- build:js js/app.min.js -->
