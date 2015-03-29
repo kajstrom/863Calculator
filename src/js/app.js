@@ -18,10 +18,6 @@ Calculator.Layout = Marionette.LayoutView.extend({
             });
         this.form.show(maxForm);
 
-        this.workouts.show(
-            new Calculator.WorkoutsLayout()
-        );
-
         this.listenTo(maxForm, "calculate", function (model) {
             var squatModel = new Calculator.WorkoutModel(null, {max: model.get("squat")}),
                 benchModel = new Calculator.WorkoutModel(null, {max: model.get("bench")}),
@@ -71,6 +67,10 @@ Calculator.WorkoutTable = Marionette.ItemView.extend({
     className: "table"
 });
 
+Calculator.EmptyWorkoutTable = Calculator.WorkoutTable.extend({
+    template: "#workout-empty-tpl"
+});
+
 Calculator.WorkoutsLayout = Marionette.LayoutView.extend({
     template: "#workouts-layout-tpl",
     className: "row",
@@ -81,18 +81,33 @@ Calculator.WorkoutsLayout = Marionette.LayoutView.extend({
         deadlift: ".deadlift-container"
     },
 
+    initialize: function (options) {
+        this.squatModel = options.squatModel;
+        this.benchModel = options.benchModel;
+        this.ohpModel = options.ohpModel;
+        this.deadliftModel = options.deadliftModel;
+    },
+
     onRender: function () {
         this.squat.show(
-            new Calculator.WorkoutTable()
+            new Calculator.WorkoutTable({
+                model: this.squatModel
+            })
         );
         this.bench.show(
-            new Calculator.WorkoutTable()
+            new Calculator.WorkoutTable({
+                model: this.benchModel
+            })
         );
         this.ohp.show(
-            new Calculator.WorkoutTable()
+            new Calculator.WorkoutTable({
+                model: this.ohpModel
+            })
         );
         this.deadlift.show(
-            new Calculator.WorkoutTable()
+            new Calculator.WorkoutTable({
+                model: this.deadliftModel
+            })
         );
     }
 });
