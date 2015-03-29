@@ -12,8 +12,11 @@ Calculator.Layout = Marionette.LayoutView.extend({
     },
 
     onRender: function () {
+        var maxModel = new Calculator.MaxModel();
         this.form.show(
-            new Calculator.MaxForm()
+            new Calculator.MaxForm({
+                model: maxModel
+            })
         );
 
         this.workouts.show(
@@ -63,6 +66,15 @@ Calculator.WorkoutsLayout = Marionette.LayoutView.extend({
         this.deadlift.show(
             new Calculator.WorkoutTable()
         );
+    }
+});
+
+Calculator.MaxModel = Backbone.Model.extend({
+    defaults: {
+        squat: 0,
+        bench: 0,
+        ohp: 0,
+        deadlift: 0
     }
 });
 
