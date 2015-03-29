@@ -215,7 +215,6 @@ Calculator.on("start", function () {
         }
     });
 
-    console.log("Running");
     this.rootLayout.calculator.show(
         new Calculator.Layout()
     )
