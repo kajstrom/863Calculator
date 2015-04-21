@@ -81,7 +81,7 @@
 	var MaxForm = __webpack_require__(5);
 
 	var Layout = Marionette.LayoutView.extend({
-	    template: __webpack_require__(6),
+	    template: __webpack_require__(9),
 	    regions: {
 	        form: ".form-container",
 	        workouts: ".workouts-container"
@@ -212,7 +212,7 @@
 	var WorkoutTable = __webpack_require__(7);
 
 	var WorkoutsLayout = Marionette.LayoutView.extend({
-	    template: "#workouts-layout-tpl",
+	    template: __webpack_require__(8),
 	    className: "row",
 	    regions: {
 	        squat: ".squat-container",
@@ -301,7 +301,34 @@
 	module.exports = MaxForm;
 
 /***/ },
-/* 6 */
+/* 6 */,
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var WorkoutTable = Marionette.ItemView.extend({
+	    template: "#workouts-table-tpl",
+	    tagName: "table",
+	    className: "table"
+	});
+
+	module.exports = WorkoutTable;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="col-xs-12 col-md-3">\r\n    <h3>Squat</h3>\r\n    <div class="squat-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Bench press</h3>\r\n    <div class="bench-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>OHP</h3>\r\n    <div class="ohp-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Deadlift</h3>\r\n    <div class="deadlift-container"></div>\r\n</div>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
@@ -313,18 +340,6 @@
 	}
 	return __p
 	}
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var WorkoutTable = Marionette.ItemView.extend({
-	    template: "#workouts-table-tpl",
-	    tagName: "table",
-	    className: "table"
-	});
-
-	module.exports = WorkoutTable;
 
 /***/ }
 /******/ ]);

@@ -1,7 +1,7 @@
 var WorkoutTable = require("./WorkoutTable.js");
 
 var WorkoutsLayout = Marionette.LayoutView.extend({
-    template: "#workouts-layout-tpl",
+    template: require("../templates/workouts-layout-tpl.ejs"),
     className: "row",
     regions: {
         squat: ".squat-container",

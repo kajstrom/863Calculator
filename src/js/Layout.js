@@ -4,7 +4,7 @@ var MaxModel = require("./MaxModel.js");
 var MaxForm = require("./MaxForm.js");
 
 var Layout = Marionette.LayoutView.extend({
-    template: require("ejs!../templates/calculator-tpl.ejs"),
+    template: require("../templates/calculator-tpl.ejs"),
     regions: {
         form: ".form-container",
         workouts: ".workouts-container"
