@@ -13,6 +13,11 @@
   },
   "dependencies": {
     "backbone.marionette": "^2.4.1",
+    "ejs-loader": "^0.2.1",
     "jquery": "^2.1.3"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/kajstrom/863Calculator.git"
   }
 }

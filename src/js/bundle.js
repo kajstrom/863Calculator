@@ -44,8 +44,6 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-
 	var Calculator = new Marionette.Application({
 	    initialize: function () {
 
@@ -83,7 +81,7 @@
 	var MaxForm = __webpack_require__(5);
 
 	var Layout = Marionette.LayoutView.extend({
-	    template: "#calculator-tpl",
+	    template: __webpack_require__(6),
 	    regions: {
 	        form: ".form-container",
 	        workouts: ".workouts-container"
@@ -211,7 +209,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WorkoutTable = __webpack_require__(6);
+	var WorkoutTable = __webpack_require__(7);
 
 	var WorkoutsLayout = Marionette.LayoutView.extend({
 	    template: "#workouts-layout-tpl",
@@ -304,6 +302,20 @@
 
 /***/ },
 /* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="form-container"></div>\r\n<div class="workouts-container"></div>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var WorkoutTable = Marionette.ItemView.extend({
