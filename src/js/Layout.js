@@ -30,6 +30,12 @@ var Layout = Marionette.LayoutView.extend({
                 deadliftModel: deadliftModel
             });
 
+            Backbone.history.navigate(
+                "squat/" + model.get("squat")
+                + "/bench/" + model.get("bench")
+                + "/ohp/" + model.get("ohp")
+                + "/deadlift/" + model.get("deadlift")
+            );
             this.workouts.show(workoutsLayout);
         });
     }

@@ -44,14 +44,10 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Calculator = new Marionette.Application({
-	    initialize: function () {
-
-	    }
-	});
+	var Calculator = new Marionette.Application();
 
 	Calculator.Layout = __webpack_require__(1);
-
+	var Router = __webpack_require__(11);
 
 	Calculator.on("start", function () {
 	    this.rootLayout = new Marionette.LayoutView({
@@ -60,6 +56,10 @@
 	            calculator: "#calculator"
 	        }
 	    });
+
+	    var router = new Router();
+
+	    Backbone.history.start();
 
 	    this.rootLayout.calculator.show(
 	        new Calculator.Layout()
@@ -107,6 +107,12 @@
 	                deadliftModel: deadliftModel
 	            });
 
+	            Backbone.history.navigate(
+	                "squat/" + model.get("squat")
+	                + "/bench/" + model.get("bench")
+	                + "/ohp/" + model.get("ohp")
+	                + "/deadlift/" + model.get("deadlift")
+	            );
 	            this.workouts.show(workoutsLayout);
 	        });
 	    }
@@ -423,6 +429,22 @@
 	}
 	return __p
 	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Router = Marionette.AppRouter.extend({
+	    routes: {
+	        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "fillForm"
+	    },
+
+	    fillForm: function (squat, bench, ohp, deadlift) {
+	        console.log(squat, bench, ohp, deadlift);
+	    }
+	});
+
+	module.exports = Router;
 
 /***/ }
 /******/ ]);
