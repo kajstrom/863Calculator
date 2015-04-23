@@ -1,5 +1,5 @@
 var WorkoutTable = Marionette.ItemView.extend({
-    template: "#workouts-table-tpl",
+    template: require("../templates/workouts-table-tpl.ejs"),
     tagName: "table",
     className: "table"
 });

@@ -1,5 +1,5 @@
 var MaxForm = Marionette.ItemView.extend({
-    template: "#maxform-tpl",
+    template: require("../templates/maxform-tpl.ejs"),
     tagName: "form",
     events: {
         "click .js-calculate": "calculate"

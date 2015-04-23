@@ -81,7 +81,7 @@
 	var MaxForm = __webpack_require__(5);
 
 	var Layout = Marionette.LayoutView.extend({
-	    template: __webpack_require__(9),
+	    template: __webpack_require__(7),
 	    regions: {
 	        form: ".form-container",
 	        workouts: ".workouts-container"
@@ -209,7 +209,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WorkoutTable = __webpack_require__(7);
+	var WorkoutTable = __webpack_require__(6);
 
 	var WorkoutsLayout = Marionette.LayoutView.extend({
 	    template: __webpack_require__(8),
@@ -274,7 +274,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var MaxForm = Marionette.ItemView.extend({
-	    template: "#maxform-tpl",
+	    template: __webpack_require__(10),
 	    tagName: "form",
 	    events: {
 	        "click .js-calculate": "calculate"
@@ -301,17 +301,30 @@
 	module.exports = MaxForm;
 
 /***/ },
-/* 6 */,
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var WorkoutTable = Marionette.ItemView.extend({
-	    template: "#workouts-table-tpl",
+	    template: __webpack_require__(9),
 	    tagName: "table",
 	    className: "table"
 	});
 
 	module.exports = WorkoutTable;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="form-container"></div>\r\n<div class="workouts-container"></div>';
+
+	}
+	return __p
+	}
 
 /***/ },
 /* 8 */
@@ -335,7 +348,77 @@
 	obj || (obj = {});
 	var __t, __p = '';
 	with (obj) {
-	__p += '<div class="form-container"></div>\r\n<div class="workouts-container"></div>';
+	__p += '<thead>\r\n<th class="active">Week 1</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
+	((__t = ( week1_set1_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week1_set1_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week1_set2_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week1_set2_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week1_set1_reps )) == null ? '' : __t) +
+	'+ @ ' +
+	((__t = ( week1_set3_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n</tbody>\r\n<thead>\r\n<th class="active">Week 2</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
+	((__t = ( week2_set1_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week2_set1_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week2_set2_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week2_set2_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week2_set3_reps )) == null ? '' : __t) +
+	'+ @ ' +
+	((__t = ( week2_set3_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n</tbody>\r\n<thead>\r\n<th class="active">Week 3</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
+	((__t = ( week3_set1_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week3_set1_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week3_set2_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week3_set2_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week3_set3_reps )) == null ? '' : __t) +
+	'+ @ ' +
+	((__t = ( week3_set3_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n</tbody>\r\n<th class="active">Week 4, Deload</th>\r\n<tbody>\r\n<tr>\r\n    <td>' +
+	((__t = ( week4_set1_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week4_set1_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week4_set2_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week4_set2_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
+	((__t = ( week4_set3_reps )) == null ? '' : __t) +
+	' @ ' +
+	((__t = ( week4_set3_weight )) == null ? '' : __t) +
+	' kg</td>\r\n</tr>\r\n</tbody>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="form-group">\r\n    <label for="squat1RM">Squat, 1RM</label>\r\n    <input type="number" id="squat1RM" class="form-control" value="' +
+	((__t = ( squat )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="bench1RM">Bench, 1RM</label>\r\n    <input id="bench1RM" class="form-control" type="number" value="' +
+	((__t = ( bench )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="ohp1RM">Overhead Press, 1RM</label>\r\n    <input id="ohp1RM" class="form-control" type="number" value="' +
+	((__t = ( ohp )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deadlift1RM">Deadlift, 1RM</label>\r\n    <input id="deadlift1RM" class="form-control" type="number" value="' +
+	((__t = ( deadlift )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
 
 	}
 	return __p
