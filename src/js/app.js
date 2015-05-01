@@ -1,6 +1,4 @@
 var Calculator = new Marionette.Application();
-
-Calculator.Layout = require("./Layout.js");
 var Router = require("./Router.js");
 
 Calculator.on("start", function () {
@@ -11,13 +9,11 @@ Calculator.on("start", function () {
         }
     });
 
-    var router = new Router();
+    var router = new Router({
+        container: this.rootLayout.calculator
+    });
 
     Backbone.history.start();
-
-    this.rootLayout.calculator.show(
-        new Calculator.Layout()
-    )
 });
 
 $(document).ready(function () {

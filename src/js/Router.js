@@ -1,10 +1,39 @@
+var Layout = require("./Layout.js");
+var MaxModel = require("./MaxModel.js");
+
 var Router = Marionette.AppRouter.extend({
     routes: {
-        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "fillForm"
+        "": "emptyForm",
+        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "filledForm"
     },
 
-    fillForm: function (squat, bench, ohp, deadlift) {
-        console.log(squat, bench, ohp, deadlift);
+    initialize: function (options) {
+        this.container = options.container
+    },
+
+    emptyForm: function () {
+
+        this.container.show(
+            new Layout({
+                model: new MaxModel()
+            })
+        )
+    },
+
+    filledForm: function (squat, bench, ohp, deadlift) {
+        var maxModel = new MaxModel({
+            squat: squat,
+            bench: bench,
+            ohp: ohp,
+            deadlift: deadlift
+        });
+        var layout = new Layout({
+            model: maxModel
+        });
+
+        this.container.show(
+            layout
+        )
     }
 });
 
