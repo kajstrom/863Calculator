@@ -1,3 +1,5 @@
+var Marionette = require("backbone.marionette");
+
 var WorkoutTable = Marionette.ItemView.extend({
     template: require("../templates/workouts-table-tpl.ejs"),
     tagName: "table",

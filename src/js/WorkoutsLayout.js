@@ -1,3 +1,4 @@
+var Marionette = require("backbone.marionette");
 var WorkoutTable = require("./WorkoutTable.js");
 
 var WorkoutsLayout = Marionette.LayoutView.extend({

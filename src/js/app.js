@@ -1,3 +1,6 @@
+var $ = require("jquery");
+var Backbone = require("backbone");
+var Marionette = require("backbone.marionette");
 var Calculator = new Marionette.Application();
 var Router = require("./Router.js");
 

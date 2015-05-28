@@ -1,3 +1,5 @@
+var Backbone = require("backbone");
+
 var MaxModel = Backbone.Model.extend({
     defaults: {
         squat: 0,

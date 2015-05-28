@@ -1,3 +1,5 @@
+var webpack = require("webpack");
+
 module.exports = {
     entry: "./src/js/app.js",
     output: {
@@ -8,5 +10,11 @@ module.exports = {
         loaders: [
             { test: /\.ejs$/, loader: "ejs" }
         ]
+    },
+    resolve: {
+        alias: {
+            backbone: __dirname + "/node_modules/backbone.marionette/node_modules/backbone/backbone.js",
+            underscore: __dirname + "/node_modules/backbone.marionette/node_modules/underscore/underscore.js"
+        }
     }
 };

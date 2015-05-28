@@ -1,3 +1,5 @@
+var Marionette = require("backbone.marionette");
+
 var MaxForm = Marionette.ItemView.extend({
     template: require("../templates/maxform-tpl.ejs"),
     tagName: "form",

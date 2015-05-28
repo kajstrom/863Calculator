@@ -1,3 +1,4 @@
+var Marionette = require("backbone.marionette");
 var Layout = require("./Layout.js");
 var MaxModel = require("./MaxModel.js");
 
@@ -8,16 +9,15 @@ var Router = Marionette.AppRouter.extend({
     },
 
     initialize: function (options) {
-        this.container = options.container
+        this.container = options.container;
     },
 
     emptyForm: function () {
-
         this.container.show(
             new Layout({
                 model: new MaxModel()
             })
-        )
+        );
     },
 
     filledForm: function (squat, bench, ohp, deadlift) {

@@ -1,3 +1,5 @@
+var Backbone = require("backbone");
+
 var WorkoutModel = Backbone.Model.extend({
     liftMax: 0,
     defaults: {
