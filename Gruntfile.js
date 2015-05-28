@@ -18,15 +18,6 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: {
-                    'dist/js/vendor.min.js': [
-                        "node_modules/jquery/dist/jquery.min.js",
-                        "node_modules/backbone.marionette/node_modules/underscore/underscore-min.js",
-                        "node_modules/backbone.marionette/node_modules/backbone/backbone.js",
-                        "node_modules/backbone.marionette/node_modules/backbone.babysitter/lib/backbone.babysitter.min.js",
-                        "node_modules/backbone.marionette/node_modules/backbone.wreqr/lib/backbone.wreqr.min.js",
-                        "node_modules/backbone.marionette/lib/backbone.marionette.min.js",
-                        "src/js/bootstrap.min.js"
-                    ],
                     'dist/js/app.min.js': ['src/js/bundle.js']
                 }
             }
