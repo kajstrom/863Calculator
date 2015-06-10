@@ -12,8 +12,9 @@ module.exports = {
         ]
     },
     resolve: {
+        modulesDirectories: ["node_modules"],
         alias: {
-            backbone: __dirname + "/node_modules/backbone.marionette/node_modules/backbone/backbone.js",
+            backbone: __dirname + "/node_modules/backbone/backbone.js",
             underscore: __dirname + "/node_modules/backbone.marionette/node_modules/underscore/underscore.js"
         }
     }
