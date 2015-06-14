@@ -46,7 +46,7 @@
 
 	var $ = __webpack_require__(3);
 	var Backbone = __webpack_require__(2);
-	var Marionette = __webpack_require__(6);
+	var Marionette = __webpack_require__(4);
 	var Calculator = new Marionette.Application();
 	var Router = __webpack_require__(9);
 
@@ -78,6 +78,10 @@
 
 	var WorkoutModel = Backbone.Model.extend({
 	    liftMax: 0,
+	    /**
+	     * @type {Number} The multiplier calculated off each set before the actual percentage calculation is done.
+	     */
+	    initialMultiplier: 0.9,
 	    defaults: {
 	        week1_set1_reps: 8,
 	        week1_set1_weight: 0,
@@ -123,7 +127,7 @@
 	    },
 
 	    calculate: function () {
-	        var calculationMax = this.liftMax * 0.9,
+	        var calculationMax = this.liftMax * this.initialMultiplier,
 	            setPercentageKey = "",
 	            setWeightKey = "";
 
@@ -131,7 +135,6 @@
 	            for(var setNo = 1;setNo <= 3;setNo++) {
 	                setPercentageKey = "week" + week + "_set" + setNo + "_percentage";
 	                setWeightKey = "week" + week + "_set" + setNo + "_weight";
-
 	                this.set(setWeightKey, this.calculateSet(calculationMax, this.get(setPercentageKey)));
 	            }
 	        }
@@ -154,8 +157,11 @@
 	        var plates = setWeight / minWeightStep;
 	        plates = Math.floor(plates);
 
-	        modulus = Math.round(modulus);
-	        plates += modulus;
+	        //If we land between the minimum weight step e.g. at 68.5 we check if the modulus is closer to a larger or
+	        //smaller increment so that 68.5 would become 67.5 and 69 would become 70.
+	        if (Math.round(modulus / minWeightStep) === 1) {
+	            plates++;
+	        }
 
 	        return plates * minWeightStep;
 	    }
@@ -11258,95 +11264,6 @@
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Backbone = __webpack_require__(2);
-	var Marionette = __webpack_require__(6);
-	var WorkoutModel = __webpack_require__(1);
-	var WorkoutsLayout = __webpack_require__(8);
-	var MaxForm = __webpack_require__(10);
-
-	var Layout = Marionette.LayoutView.extend({
-	    template: __webpack_require__(11),
-	    regions: {
-	        form: ".form-container",
-	        workouts: ".workouts-container"
-	    },
-
-	    onRender: function () {
-	        var maxForm = new MaxForm({
-	                model: this.model
-	            });
-	        this.form.show(maxForm);
-
-	        if (this.model.notEmpty()) {
-	            this.showWorkouts(this.model);
-	        }
-
-	        this.listenTo(maxForm, "calculate", function (model) {
-	            this.showWorkouts(model);
-	        });
-	    },
-
-	    /**
-	     * Generate and show workouts.
-	     * @param {Backbone.Model} model Max lifts model used for calculating the workouts.
-	     */
-	    showWorkouts: function (model) {
-	        var squatModel = new WorkoutModel(null, {max: model.get("squat")}),
-	            benchModel = new WorkoutModel(null, {max: model.get("bench")}),
-	            ohpModel = new WorkoutModel(null, {max: model.get("ohp")}),
-	            deadliftModel = new WorkoutModel(null, {max: model.get("deadlift")});
-
-	        var workoutsLayout = new WorkoutsLayout({
-	            squatModel: squatModel,
-	            benchModel: benchModel,
-	            ohpModel: ohpModel,
-	            deadliftModel: deadliftModel
-	        });
-
-	        Backbone.history.navigate(
-	            "squat/" + model.get("squat")
-	            + "/bench/" + model.get("bench")
-	            + "/ohp/" + model.get("ohp")
-	            + "/deadlift/" + model.get("deadlift")
-	        );
-	        this.workouts.show(workoutsLayout);
-	    }
-	});
-
-	module.exports = Layout;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Backbone = __webpack_require__(2);
-
-	var MaxModel = Backbone.Model.extend({
-	    defaults: {
-	        squat: 0,
-	        bench: 0,
-	        ohp: 0,
-	        deadlift: 0
-	    },
-
-	    notEmpty: function () {
-	        if (this.get("squat") > 0 ||
-	            this.get("bench") > 0 ||
-	            this.get("ohp") > 0 ||
-	            this.get("deadlift") > 0)  {
-	            return true;
-	        }
-
-	        return false;
-	    }
-	});
-
-	module.exports = MaxModel;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// MarionetteJS (Backbone.Marionette)
 	// ----------------------------------
 	// v2.4.1
@@ -11359,7 +11276,7 @@
 	(function(root, factory) {
 
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2), __webpack_require__(7), __webpack_require__(16), __webpack_require__(15)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2), __webpack_require__(7), __webpack_require__(12), __webpack_require__(11)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
 	      return (root.Marionette = root.Mn = factory(root, Backbone, _));
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports !== 'undefined') {
@@ -14711,6 +14628,95 @@
 
 
 /***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Backbone = __webpack_require__(2);
+	var Marionette = __webpack_require__(4);
+	var WorkoutModel = __webpack_require__(1);
+	var WorkoutsLayout = __webpack_require__(8);
+	var MaxForm = __webpack_require__(10);
+
+	var Layout = Marionette.LayoutView.extend({
+	    template: __webpack_require__(13),
+	    regions: {
+	        form: ".form-container",
+	        workouts: ".workouts-container"
+	    },
+
+	    onRender: function () {
+	        var maxForm = new MaxForm({
+	                model: this.model
+	            });
+	        this.form.show(maxForm);
+
+	        if (this.model.notEmpty()) {
+	            this.showWorkouts(this.model);
+	        }
+
+	        this.listenTo(maxForm, "calculate", function (model) {
+	            this.showWorkouts(model);
+	        });
+	    },
+
+	    /**
+	     * Generate and show workouts.
+	     * @param {Backbone.Model} model Max lifts model used for calculating the workouts.
+	     */
+	    showWorkouts: function (model) {
+	        var squatModel = new WorkoutModel(null, {max: model.get("squat")}),
+	            benchModel = new WorkoutModel(null, {max: model.get("bench")}),
+	            ohpModel = new WorkoutModel(null, {max: model.get("ohp")}),
+	            deadliftModel = new WorkoutModel(null, {max: model.get("deadlift")});
+
+	        var workoutsLayout = new WorkoutsLayout({
+	            squatModel: squatModel,
+	            benchModel: benchModel,
+	            ohpModel: ohpModel,
+	            deadliftModel: deadliftModel
+	        });
+
+	        Backbone.history.navigate(
+	            "squat/" + model.get("squat")
+	            + "/bench/" + model.get("bench")
+	            + "/ohp/" + model.get("ohp")
+	            + "/deadlift/" + model.get("deadlift")
+	        );
+	        this.workouts.show(workoutsLayout);
+	    }
+	});
+
+	module.exports = Layout;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Backbone = __webpack_require__(2);
+
+	var MaxModel = Backbone.Model.extend({
+	    defaults: {
+	        squat: 0,
+	        bench: 0,
+	        ohp: 0,
+	        deadlift: 0
+	    },
+
+	    notEmpty: function () {
+	        if (this.get("squat") > 0 ||
+	            this.get("bench") > 0 ||
+	            this.get("ohp") > 0 ||
+	            this.get("deadlift") > 0)  {
+	            return true;
+	        }
+
+	        return false;
+	    }
+	});
+
+	module.exports = MaxModel;
+
+/***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -16063,11 +16069,11 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Marionette = __webpack_require__(6);
-	var WorkoutTable = __webpack_require__(12);
+	var Marionette = __webpack_require__(4);
+	var WorkoutTable = __webpack_require__(15);
 
 	var WorkoutsLayout = Marionette.LayoutView.extend({
-	    template: __webpack_require__(13),
+	    template: __webpack_require__(16),
 	    className: "row",
 	    regions: {
 	        squat: ".squat-container",
@@ -16113,9 +16119,9 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Marionette = __webpack_require__(6);
-	var Layout = __webpack_require__(4);
-	var MaxModel = __webpack_require__(5);
+	var Marionette = __webpack_require__(4);
+	var Layout = __webpack_require__(5);
+	var MaxModel = __webpack_require__(6);
 
 	var Router = Marionette.AppRouter.extend({
 	    routes: {
@@ -16158,7 +16164,7 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Marionette = __webpack_require__(6);
+	var Marionette = __webpack_require__(4);
 
 	var MaxForm = Marionette.ItemView.extend({
 	    template: __webpack_require__(14),
@@ -16189,70 +16195,6 @@
 
 /***/ },
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (obj) {
-	obj || (obj = {});
-	var __t, __p = '';
-	with (obj) {
-	__p += '<div class="form-container"></div>\r\n<div class="workouts-container"></div>';
-
-	}
-	return __p
-	}
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Marionette = __webpack_require__(6);
-
-	var WorkoutTable = Marionette.ItemView.extend({
-	    template: __webpack_require__(17),
-	    tagName: "table",
-	    className: "table"
-	});
-
-	module.exports = WorkoutTable;
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (obj) {
-	obj || (obj = {});
-	var __t, __p = '';
-	with (obj) {
-	__p += '<div class="col-xs-12 col-md-3">\r\n    <h3>Squat</h3>\r\n    <div class="squat-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Bench press</h3>\r\n    <div class="bench-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>OHP</h3>\r\n    <div class="ohp-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Deadlift</h3>\r\n    <div class="deadlift-container"></div>\r\n</div>';
-
-	}
-	return __p
-	}
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (obj) {
-	obj || (obj = {});
-	var __t, __p = '';
-	with (obj) {
-	__p += '<div class="form-group">\r\n    <label for="squat1RM">Squat, 1RM</label>\r\n    <input type="number" id="squat1RM" class="form-control" value="' +
-	((__t = ( squat )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="bench1RM">Bench, 1RM</label>\r\n    <input id="bench1RM" class="form-control" type="number" value="' +
-	((__t = ( bench )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="ohp1RM">Overhead Press, 1RM</label>\r\n    <input id="ohp1RM" class="form-control" type="number" value="' +
-	((__t = ( ohp )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deadlift1RM">Deadlift, 1RM</label>\r\n    <input id="deadlift1RM" class="form-control" type="number" value="' +
-	((__t = ( deadlift )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
-
-	}
-	return __p
-	}
-
-/***/ },
-/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.BabySitter
@@ -16448,7 +16390,7 @@
 
 
 /***/ },
-/* 16 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.Wreqr (Backbone.Marionette)
@@ -16892,6 +16834,70 @@
 
 	}));
 
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="form-container"></div>\r\n<div class="workouts-container"></div>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="form-group">\r\n    <label for="squat1RM">Squat, 1RM</label>\r\n    <input type="number" id="squat1RM" class="form-control" value="' +
+	((__t = ( squat )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="bench1RM">Bench, 1RM</label>\r\n    <input id="bench1RM" class="form-control" type="number" value="' +
+	((__t = ( bench )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="ohp1RM">Overhead Press, 1RM</label>\r\n    <input id="ohp1RM" class="form-control" type="number" value="' +
+	((__t = ( ohp )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deadlift1RM">Deadlift, 1RM</label>\r\n    <input id="deadlift1RM" class="form-control" type="number" value="' +
+	((__t = ( deadlift )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Marionette = __webpack_require__(4);
+
+	var WorkoutTable = Marionette.ItemView.extend({
+	    template: __webpack_require__(17),
+	    tagName: "table",
+	    className: "table"
+	});
+
+	module.exports = WorkoutTable;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="col-xs-12 col-md-3">\r\n    <h3>Squat</h3>\r\n    <div class="squat-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Bench press</h3>\r\n    <div class="bench-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>OHP</h3>\r\n    <div class="ohp-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Deadlift</h3>\r\n    <div class="deadlift-container"></div>\r\n</div>';
+
+	}
+	return __p
+	}
 
 /***/ },
 /* 17 */
