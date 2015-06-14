@@ -2,6 +2,10 @@ var Backbone = require("backbone");
 
 var WorkoutModel = Backbone.Model.extend({
     liftMax: 0,
+    /**
+     * @type {Number} The multiplier calculated off each set before the actual percentage calculation is done.
+     */
+    initialMultiplier: 0.9,
     defaults: {
         week1_set1_reps: 8,
         week1_set1_weight: 0,
@@ -47,7 +51,7 @@ var WorkoutModel = Backbone.Model.extend({
     },
 
     calculate: function () {
-        var calculationMax = this.liftMax * 0.9,
+        var calculationMax = this.liftMax * this.initialMultiplier,
             setPercentageKey = "",
             setWeightKey = "";
 
@@ -78,8 +82,11 @@ var WorkoutModel = Backbone.Model.extend({
         var plates = setWeight / minWeightStep;
         plates = Math.floor(plates);
 
-        modulus = Math.round(modulus);
-        plates += modulus;
+        //If we land between the minimum weight step e.g. at 68.5 we check if the modulus is closer to a larger or
+        //smaller increment so that 68.5 would become 67.5 and 69 would become 70.
+        if (Math.round(modulus / minWeightStep) === 1) {
+            plates++;
+        }
 
         return plates * minWeightStep;
     }
