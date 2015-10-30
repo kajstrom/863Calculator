@@ -72,23 +72,10 @@ var WorkoutModel = Backbone.Model.extend({
      */
     calculateSet: function (calculationMax, percentage) {
         var percentageAsDecimal = percentage / 100,
-            minWeightStep = 2.5;
+            minWeightStep = 2.5,
+            setWeight = calculationMax * percentageAsDecimal;
 
-        //Calculate the set weight.
-        var setWeight = calculationMax * percentageAsDecimal;
-
-        //Since the available plates usually go at 1.25 kg min, we must round to the nearest 2.5 kg.
-        var modulus = setWeight % minWeightStep;
-        var plates = setWeight / minWeightStep;
-        plates = Math.floor(plates);
-
-        //If we land between the minimum weight step e.g. at 68.5 we check if the modulus is closer to a larger or
-        //smaller increment so that 68.5 would become 67.5 and 69 would become 70.
-        if (Math.round(modulus / minWeightStep) === 1) {
-            plates++;
-        }
-
-        return plates * minWeightStep;
+        return Math.round(setWeight / minWeightStep) * minWeightStep;
     }
 });
 
