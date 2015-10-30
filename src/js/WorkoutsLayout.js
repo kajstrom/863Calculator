@@ -11,14 +11,14 @@ var WorkoutsLayout = Marionette.LayoutView.extend({
         deadlift: ".deadlift-container"
     },
 
-    initialize: function (options) {
+    initialize (options) {
         this.squatModel = options.squatModel;
         this.benchModel = options.benchModel;
         this.ohpModel = options.ohpModel;
         this.deadliftModel = options.deadliftModel;
     },
 
-    onRender: function () {
+    onRender () {
         this.squat.show(
             new WorkoutTable({
                 model: this.squatModel

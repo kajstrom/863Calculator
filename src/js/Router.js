@@ -8,11 +8,11 @@ var Router = Marionette.AppRouter.extend({
         "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "filledForm"
     },
 
-    initialize: function (options) {
+    initialize(options) {
         this.container = options.container;
     },
 
-    emptyForm: function () {
+    emptyForm () {
         this.container.show(
             new Layout({
                 model: new MaxModel()
@@ -20,7 +20,7 @@ var Router = Marionette.AppRouter.extend({
         );
     },
 
-    filledForm: function (squat, bench, ohp, deadlift) {
+    filledForm (squat, bench, ohp, deadlift) {
         var maxModel = new MaxModel({
             squat: squat,
             bench: bench,

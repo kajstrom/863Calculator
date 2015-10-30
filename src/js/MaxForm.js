@@ -13,7 +13,7 @@ var MaxForm = Marionette.ItemView.extend({
         deadlift: "#deadlift1RM"
     },
 
-    calculate: function () {
+    calculate() {
         this.model.set({
             bench: this.ui.bench.val(),
             squat: this.ui.squat.val(),

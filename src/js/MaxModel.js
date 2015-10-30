@@ -8,7 +8,7 @@ var MaxModel = Backbone.Model.extend({
         deadlift: 0
     },
 
-    notEmpty: function () {
+    notEmpty() {
         if (this.get("squat") > 0 ||
             this.get("bench") > 0 ||
             this.get("ohp") > 0 ||

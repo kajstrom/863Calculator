@@ -11,7 +11,7 @@ var Layout = Marionette.LayoutView.extend({
         workouts: ".workouts-container"
     },
 
-    onRender: function () {
+    onRender() {
         var maxForm = new MaxForm({
                 model: this.model
             });
@@ -21,7 +21,7 @@ var Layout = Marionette.LayoutView.extend({
             this.showWorkouts(this.model);
         }
 
-        this.listenTo(maxForm, "calculate", function (model) {
+        this.listenTo(maxForm, "calculate", (model) => {
             this.showWorkouts(model);
         });
     },
@@ -30,7 +30,7 @@ var Layout = Marionette.LayoutView.extend({
      * Generate and show workouts.
      * @param {Backbone.Model} model Max lifts model used for calculating the workouts.
      */
-    showWorkouts: function (model) {
+    showWorkouts(model) {
         var squatModel = new WorkoutModel(null, {max: model.get("squat")}),
             benchModel = new WorkoutModel(null, {max: model.get("bench")}),
             ohpModel = new WorkoutModel(null, {max: model.get("ohp")}),

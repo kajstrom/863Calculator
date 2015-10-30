@@ -19,6 +19,6 @@ Calculator.on("start", function () {
     Backbone.history.start();
 });
 
-$(document).ready(function () {
+$(document).ready(() => {
     Calculator.start();
 });

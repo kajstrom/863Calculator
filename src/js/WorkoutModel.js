@@ -45,12 +45,12 @@ var WorkoutModel = Backbone.Model.extend({
         week4_set3_percentage: 60
     },
 
-    initialize: function (data, options) {
+    initialize(data, options) {
         this.liftMax = options.max;
         this.calculate();
     },
 
-    calculate: function () {
+    calculate() {
         var calculationMax = this.liftMax * this.initialMultiplier,
             setPercentageKey = "",
             setWeightKey = "";
@@ -70,7 +70,7 @@ var WorkoutModel = Backbone.Model.extend({
      * @param {Number} calculationMax
      * @param {Number} percentage
      */
-    calculateSet: function (calculationMax, percentage) {
+    calculateSet(calculationMax, percentage) {
         var percentageAsDecimal = percentage / 100,
             minWeightStep = 2.5,
             setWeight = calculationMax * percentageAsDecimal;

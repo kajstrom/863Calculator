@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var $ = __webpack_require__(3);
 	var Backbone = __webpack_require__(2);
 	var Marionette = __webpack_require__(4);
@@ -69,10 +71,11 @@
 	    Calculator.start();
 	});
 
-
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var Backbone = __webpack_require__(2);
 
@@ -121,20 +124,21 @@
 	        week4_set3_percentage: 60
 	    },
 
-	    initialize: function (data, options) {
+	    initialize: function initialize(data, options) {
 	        this.liftMax = options.max;
 	        this.calculate();
 	    },
 
-	    calculate: function () {
+	    calculate: function calculate() {
 	        var calculationMax = this.liftMax * this.initialMultiplier,
 	            setPercentageKey = "",
 	            setWeightKey = "";
 
-	        for(var week = 1;week <= 4;week++) {
-	            for(var setNo = 1;setNo <= 3;setNo++) {
+	        for (var week = 1; week <= 4; week++) {
+	            for (var setNo = 1; setNo <= 3; setNo++) {
 	                setPercentageKey = "week" + week + "_set" + setNo + "_percentage";
 	                setWeightKey = "week" + week + "_set" + setNo + "_weight";
+
 	                this.set(setWeightKey, this.calculateSet(calculationMax, this.get(setPercentageKey)));
 	            }
 	        }
@@ -145,25 +149,12 @@
 	     * @param {Number} calculationMax
 	     * @param {Number} percentage
 	     */
-	    calculateSet: function (calculationMax, percentage) {
+	    calculateSet: function calculateSet(calculationMax, percentage) {
 	        var percentageAsDecimal = percentage / 100,
-	            minWeightStep = 2.5;
+	            minWeightStep = 2.5,
+	            setWeight = calculationMax * percentageAsDecimal;
 
-	        //Calculate the set weight.
-	        var setWeight = calculationMax * percentageAsDecimal;
-
-	        //Since the available plates usually go at 1.25 kg min, we must round to the nearest 2.5 kg.
-	        var modulus = setWeight % minWeightStep;
-	        var plates = setWeight / minWeightStep;
-	        plates = Math.floor(plates);
-
-	        //If we land between the minimum weight step e.g. at 68.5 we check if the modulus is closer to a larger or
-	        //smaller increment so that 68.5 would become 67.5 and 69 would become 70.
-	        if (Math.round(modulus / minWeightStep) === 1) {
-	            plates++;
-	        }
-
-	        return plates * minWeightStep;
+	        return Math.round(setWeight / minWeightStep) * minWeightStep;
 	    }
 	});
 
@@ -14631,6 +14622,8 @@
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Backbone = __webpack_require__(2);
 	var Marionette = __webpack_require__(4);
 	var WorkoutModel = __webpack_require__(1);
@@ -14644,10 +14637,12 @@
 	        workouts: ".workouts-container"
 	    },
 
-	    onRender: function () {
+	    onRender: function onRender() {
+	        var _this = this;
+
 	        var maxForm = new MaxForm({
-	                model: this.model
-	            });
+	            model: this.model
+	        });
 	        this.form.show(maxForm);
 
 	        if (this.model.notEmpty()) {
@@ -14655,7 +14650,7 @@
 	        }
 
 	        this.listenTo(maxForm, "calculate", function (model) {
-	            this.showWorkouts(model);
+	            _this.showWorkouts(model);
 	        });
 	    },
 
@@ -14663,11 +14658,11 @@
 	     * Generate and show workouts.
 	     * @param {Backbone.Model} model Max lifts model used for calculating the workouts.
 	     */
-	    showWorkouts: function (model) {
-	        var squatModel = new WorkoutModel(null, {max: model.get("squat")}),
-	            benchModel = new WorkoutModel(null, {max: model.get("bench")}),
-	            ohpModel = new WorkoutModel(null, {max: model.get("ohp")}),
-	            deadliftModel = new WorkoutModel(null, {max: model.get("deadlift")});
+	    showWorkouts: function showWorkouts(model) {
+	        var squatModel = new WorkoutModel(null, { max: model.get("squat") }),
+	            benchModel = new WorkoutModel(null, { max: model.get("bench") }),
+	            ohpModel = new WorkoutModel(null, { max: model.get("ohp") }),
+	            deadliftModel = new WorkoutModel(null, { max: model.get("deadlift") });
 
 	        var workoutsLayout = new WorkoutsLayout({
 	            squatModel: squatModel,
@@ -14676,12 +14671,7 @@
 	            deadliftModel: deadliftModel
 	        });
 
-	        Backbone.history.navigate(
-	            "squat/" + model.get("squat")
-	            + "/bench/" + model.get("bench")
-	            + "/ohp/" + model.get("ohp")
-	            + "/deadlift/" + model.get("deadlift")
-	        );
+	        Backbone.history.navigate("squat/" + model.get("squat") + "/bench/" + model.get("bench") + "/ohp/" + model.get("ohp") + "/deadlift/" + model.get("deadlift"));
 	        this.workouts.show(workoutsLayout);
 	    }
 	});
@@ -14691,6 +14681,8 @@
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var Backbone = __webpack_require__(2);
 
@@ -14702,11 +14694,8 @@
 	        deadlift: 0
 	    },
 
-	    notEmpty: function () {
-	        if (this.get("squat") > 0 ||
-	            this.get("bench") > 0 ||
-	            this.get("ohp") > 0 ||
-	            this.get("deadlift") > 0)  {
+	    notEmpty: function notEmpty() {
+	        if (this.get("squat") > 0 || this.get("bench") > 0 || this.get("ohp") > 0 || this.get("deadlift") > 0) {
 	            return true;
 	        }
 
@@ -16069,6 +16058,8 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Marionette = __webpack_require__(4);
 	var WorkoutTable = __webpack_require__(15);
 
@@ -16082,34 +16073,26 @@
 	        deadlift: ".deadlift-container"
 	    },
 
-	    initialize: function (options) {
+	    initialize: function initialize(options) {
 	        this.squatModel = options.squatModel;
 	        this.benchModel = options.benchModel;
 	        this.ohpModel = options.ohpModel;
 	        this.deadliftModel = options.deadliftModel;
 	    },
 
-	    onRender: function () {
-	        this.squat.show(
-	            new WorkoutTable({
-	                model: this.squatModel
-	            })
-	        );
-	        this.bench.show(
-	            new WorkoutTable({
-	                model: this.benchModel
-	            })
-	        );
-	        this.ohp.show(
-	            new WorkoutTable({
-	                model: this.ohpModel
-	            })
-	        );
-	        this.deadlift.show(
-	            new WorkoutTable({
-	                model: this.deadliftModel
-	            })
-	        );
+	    onRender: function onRender() {
+	        this.squat.show(new WorkoutTable({
+	            model: this.squatModel
+	        }));
+	        this.bench.show(new WorkoutTable({
+	            model: this.benchModel
+	        }));
+	        this.ohp.show(new WorkoutTable({
+	            model: this.ohpModel
+	        }));
+	        this.deadlift.show(new WorkoutTable({
+	            model: this.deadliftModel
+	        }));
 	    }
 	});
 
@@ -16118,6 +16101,8 @@
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var Marionette = __webpack_require__(4);
 	var Layout = __webpack_require__(5);
@@ -16129,19 +16114,17 @@
 	        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "filledForm"
 	    },
 
-	    initialize: function (options) {
+	    initialize: function initialize(options) {
 	        this.container = options.container;
 	    },
 
-	    emptyForm: function () {
-	        this.container.show(
-	            new Layout({
-	                model: new MaxModel()
-	            })
-	        );
+	    emptyForm: function emptyForm() {
+	        this.container.show(new Layout({
+	            model: new MaxModel()
+	        }));
 	    },
 
-	    filledForm: function (squat, bench, ohp, deadlift) {
+	    filledForm: function filledForm(squat, bench, ohp, deadlift) {
 	        var maxModel = new MaxModel({
 	            squat: squat,
 	            bench: bench,
@@ -16152,9 +16135,7 @@
 	            model: maxModel
 	        });
 
-	        this.container.show(
-	            layout
-	        )
+	        this.container.show(layout);
 	    }
 	});
 
@@ -16163,6 +16144,8 @@
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var Marionette = __webpack_require__(4);
 
@@ -16179,7 +16162,7 @@
 	        deadlift: "#deadlift1RM"
 	    },
 
-	    calculate: function () {
+	    calculate: function calculate() {
 	        this.model.set({
 	            bench: this.ui.bench.val(),
 	            squat: this.ui.squat.val(),
@@ -16874,6 +16857,8 @@
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var Marionette = __webpack_require__(4);
 
