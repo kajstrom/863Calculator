@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         },
         concat: {
             dist: {
-                src: ['src/css/bootstrap.min.css'],
+                src: ['src/css/bootstrap.min.css', 'src/css/main.css'],
                 dest: 'dist/css/styles.min.css'
             }
         },
