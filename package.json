@@ -12,9 +12,15 @@
     "grunt-contrib-uglify": "^0.8.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-processhtml": "^0.3.7",
+    "jasmine": "^2.3.2",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.14",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-webpack": "^1.7.0",
     "load-grunt-tasks": "^3.1.0",
-    "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
+    "phantomjs": "^1.9.18",
     "webpack": "^1.9.8"
   },
   "dependencies": {
@@ -26,5 +32,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kajstrom/863Calculator.git"
+  },
+  "scripts": {
+    "test": "karma start"
   }
 }

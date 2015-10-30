@@ -1,4 +1,3 @@
-var assert = require("assert");
 var WorkoutModel = require("../src/js/WorkoutModel.js");
 
 describe('WorkoutModel', function(){
@@ -8,21 +7,21 @@ describe('WorkoutModel', function(){
                 max: 100
             });
 
-            assert.equal(model.get("week1_set1_weight"), 57.5);
-            assert.equal(model.get("week1_set2_weight"), 67.5);
-            assert.equal(model.get("week1_set3_weight"), 72.5);
+            expect(model.get("week1_set1_weight")).toBe(57.5);
+            expect(model.get("week1_set2_weight")).toBe(67.5);
+            expect(model.get("week1_set3_weight")).toBe(72.5);
 
-            assert.equal(model.get("week2_set1_weight"), 62.5);
-            assert.equal(model.get("week2_set2_weight"), 72.5);
-            assert.equal(model.get("week2_set3_weight"), 77.5);
+            expect(model.get("week2_set1_weight")).toBe(62.5);
+            expect(model.get("week2_set2_weight")).toBe(72.5);
+            expect(model.get("week2_set3_weight")).toBe(77.5);
 
-            assert.equal(model.get("week3_set1_weight"), 67.5);
-            assert.equal(model.get("week3_set2_weight"), 77.5);
-            assert.equal(model.get("week3_set3_weight"), 80);
+            expect(model.get("week3_set1_weight")).toBe(67.5);
+            expect(model.get("week3_set2_weight")).toBe(77.5);
+            expect(model.get("week3_set3_weight")).toBe(80);
 
-            assert.equal(model.get("week4_set1_weight"), 35);
-            assert.equal(model.get("week4_set2_weight"), 45);
-            assert.equal(model.get("week4_set3_weight"), 55);
+            expect(model.get("week4_set1_weight")).toBe(35);
+            expect(model.get("week4_set2_weight")).toBe(45);
+            expect(model.get("week4_set3_weight")).toBe(55);
         });
 
         it('should calculate sets properly from decimal numbers', function () {
@@ -30,21 +29,21 @@ describe('WorkoutModel', function(){
                 max: 132.5
             });
 
-            assert.equal(model.get("week1_set1_weight"), 77.5);
-            assert.equal(model.get("week1_set2_weight"), 90);
-            assert.equal(model.get("week1_set3_weight"), 95);
+            expect(model.get("week1_set1_weight")).toBe(77.5);
+            expect(model.get("week1_set2_weight")).toBe(90);
+            expect(model.get("week1_set3_weight")).toBe(95);
 
-            assert.equal(model.get("week2_set1_weight"), 82.5);
-            assert.equal(model.get("week2_set2_weight"), 95);
-            assert.equal(model.get("week2_set3_weight"), 102.5);
+            expect(model.get("week2_set1_weight")).toBe(82.5);
+            expect(model.get("week2_set2_weight")).toBe(95);
+            expect(model.get("week2_set3_weight")).toBe(102.5);
 
-            assert.equal(model.get("week3_set1_weight"), 90);
-            assert.equal(model.get("week3_set2_weight"), 102.5);
-            assert.equal(model.get("week3_set3_weight"), 107.5);
+            expect(model.get("week3_set1_weight")).toBe(90);
+            expect(model.get("week3_set2_weight")).toBe(102.5);
+            expect(model.get("week3_set3_weight")).toBe(107.5);
 
-            assert.equal(model.get("week4_set1_weight"), 47.5);
-            assert.equal(model.get("week4_set2_weight"), 60);
-            assert.equal(model.get("week4_set3_weight"), 72.5);
+            expect(model.get("week4_set1_weight")).toBe(47.5);
+            expect(model.get("week4_set2_weight")).toBe(60);
+            expect(model.get("week4_set3_weight")).toBe(72.5);
 
         })
     })
