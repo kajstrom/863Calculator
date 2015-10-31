@@ -5,7 +5,7 @@ var Calculator = new Marionette.Application();
 var Router = require("./Router.js");
 
 Calculator.on("start", function () {
-    this.rootLayout = new Marionette.LayoutView({
+    Calculator.rootLayout = new Marionette.LayoutView({
         el: "body",
         regions: {
             calculator: "#calculator"
