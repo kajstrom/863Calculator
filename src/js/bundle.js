@@ -53,7 +53,7 @@
 	var Router = __webpack_require__(9);
 
 	Calculator.on("start", function () {
-	    this.rootLayout = new Marionette.LayoutView({
+	    Calculator.rootLayout = new Marionette.LayoutView({
 	        el: "body",
 	        regions: {
 	            calculator: "#calculator"
@@ -16061,10 +16061,10 @@
 	"use strict";
 
 	var Marionette = __webpack_require__(4);
-	var WorkoutTable = __webpack_require__(15);
+	var WorkoutTable = __webpack_require__(14);
 
 	var WorkoutsLayout = Marionette.LayoutView.extend({
-	    template: __webpack_require__(16),
+	    template: __webpack_require__(15),
 	    className: "row",
 	    regions: {
 	        squat: ".squat-container",
@@ -16150,7 +16150,7 @@
 	var Marionette = __webpack_require__(4);
 
 	var MaxForm = Marionette.ItemView.extend({
-	    template: __webpack_require__(14),
+	    template: __webpack_require__(16),
 	    tagName: "form",
 	    events: {
 	        "click .js-calculate": "calculate"
@@ -16836,28 +16836,6 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function (obj) {
-	obj || (obj = {});
-	var __t, __p = '';
-	with (obj) {
-	__p += '<div class="form-group">\r\n    <label for="squat1RM">Squat, 1RM</label>\r\n    <input type="number" id="squat1RM" class="form-control" value="' +
-	((__t = ( squat )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="bench1RM">Bench, 1RM</label>\r\n    <input id="bench1RM" class="form-control" type="number" value="' +
-	((__t = ( bench )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="ohp1RM">Overhead Press, 1RM</label>\r\n    <input id="ohp1RM" class="form-control" type="number" value="' +
-	((__t = ( ohp )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deadlift1RM">Deadlift, 1RM</label>\r\n    <input id="deadlift1RM" class="form-control" type="number" value="' +
-	((__t = ( deadlift )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
-
-	}
-	return __p
-	}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
 	"use strict";
 
 	var Marionette = __webpack_require__(4);
@@ -16871,7 +16849,7 @@
 	module.exports = WorkoutTable;
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
@@ -16879,6 +16857,28 @@
 	var __t, __p = '';
 	with (obj) {
 	__p += '<div class="col-xs-12 col-md-3">\r\n    <h3>Squat</h3>\r\n    <div class="squat-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Bench press</h3>\r\n    <div class="bench-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>OHP</h3>\r\n    <div class="ohp-container"></div>\r\n</div>\r\n<div class="col-xs-12 col-md-3">\r\n    <h3>Deadlift</h3>\r\n    <div class="deadlift-container"></div>\r\n</div>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<div class="form-group">\r\n    <label for="squat1RM">Squat, 1RM</label>\r\n    <input type="number" id="squat1RM" class="form-control" value="' +
+	((__t = ( squat )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="bench1RM">Bench, 1RM</label>\r\n    <input id="bench1RM" class="form-control" type="number" value="' +
+	((__t = ( bench )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="ohp1RM">Overhead Press, 1RM</label>\r\n    <input id="ohp1RM" class="form-control" type="number" value="' +
+	((__t = ( ohp )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deadlift1RM">Deadlift, 1RM</label>\r\n    <input id="deadlift1RM" class="form-control" type="number" value="' +
+	((__t = ( deadlift )) == null ? '' : __t) +
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
 
 	}
 	return __p

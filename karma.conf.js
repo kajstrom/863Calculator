@@ -30,7 +30,7 @@ module.exports = function(config) {
         preprocessors: {
             'tests.webpack.js': ['webpack']
         },
-        reporters: ['progress', 'junit', 'coverage'],
+        reporters: ['progress', 'coverage'],
         //singleRun: true,
         webpack: webpackConfig,
         webpackServer: {
