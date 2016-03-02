@@ -1,4 +1,4 @@
-var WorkoutModel = require("../src/js/WorkoutModel.js");
+var WorkoutModel = require("../src/js/model/WorkoutModel.js");
 
 describe('WorkoutModel', function(){
     describe('calculate', function(){

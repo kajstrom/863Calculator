@@ -1,6 +1,6 @@
 var Marionette = require("backbone.marionette");
 var Layout = require("./Layout.js");
-var MaxModel = require("./MaxModel.js");
+var MaxModel = require("./model/MaxModel.js");
 
 var Router = Marionette.AppRouter.extend({
     routes: {

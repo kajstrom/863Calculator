@@ -1,4 +1,4 @@
-var MaxModel = require("../src/js/MaxModel.js");
+var MaxModel = require("../src/js/model/MaxModel.js");
 
 describe("MaxModel", () => {
     describe("notEmpty", () => {

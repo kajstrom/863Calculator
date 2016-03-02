@@ -1,6 +1,6 @@
 var Backbone = require("backbone");
 var Marionette = require("backbone.marionette");
-var WorkoutModel = require("./WorkoutModel.js");
+var WorkoutModel = require("./model/WorkoutModel.js");
 var WorkoutsLayout = require("./WorkoutsLayout.js");
 var MaxForm = require("./MaxForm.js");
 
