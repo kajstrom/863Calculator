@@ -14713,7 +14713,7 @@
 	    /**
 	     * @type {Number} The multiplier calculated off each set before the actual percentage calculation is done.
 	     */
-	    initialMultiplier: 0.9,
+	    trainingMaxMultiplier: 0.9,
 	    defaults: {
 	        week1_set1_reps: 8,
 	        week1_set1_weight: 0,
@@ -14760,12 +14760,14 @@
 	    },
 
 	    calculate: function calculate() {
-	        var calculationMax = this.liftMax * this.initialMultiplier;
-
-	        this.get("workouts").add([this._makeWorkout(1, calculationMax, "Week 1"), this._makeWorkout(2, calculationMax, "Week 2"), this._makeWorkout(3, calculationMax, "Week 3"), this._makeWorkout(4, calculationMax, "Week 4, Deload")]);
+	        this.get("workouts").add([this._makeWorkout(1, "Week 1"), this._makeWorkout(2, "Week 2"), this._makeWorkout(3, "Week 3"), this._makeWorkout(4, "Week 4, Deload")]);
 	    },
 
-	    _makeWorkout: function _makeWorkout(number, calculationMax, name) {
+	    _trainingMax: function _trainingMax() {
+	        return this.liftMax * this.trainingMaxMultiplier;
+	    },
+
+	    _makeWorkout: function _makeWorkout(number, name) {
 	        return new WorkoutModel({
 	            name: name,
 	            set1_reps: this.get("week" + number + "_set1_reps"),
@@ -14774,7 +14776,7 @@
 	            set2_percentage: this.get("week" + number + "_set2_percentage"),
 	            set3_reps: this.get("week" + number + "_set3_reps"),
 	            set3_percentage: this.get("week" + number + "_set3_percentage"),
-	            calculationMax: calculationMax
+	            calculationMax: this._trainingMax()
 	        });
 	    }
 	});
