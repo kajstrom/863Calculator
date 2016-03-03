@@ -1,6 +1,6 @@
 var Backbone = require("backbone");
 var Marionette = require("backbone.marionette");
-var WorkoutModel = require("./model/ProgramModel.js");
+var ProgramModel = require("./model/ProgramModel.js");
 var WorkoutsLayout = require("./WorkoutsLayout.js");
 var MaxForm = require("./MaxForm.js");
 
@@ -31,10 +31,12 @@ var Layout = Marionette.LayoutView.extend({
      * @param {Backbone.Model} model Max lifts model used for calculating the workouts.
      */
     showWorkouts(model) {
-        var squatModel = new WorkoutModel(null, {max: model.get("squat")}),
-            benchModel = new WorkoutModel(null, {max: model.get("bench")}),
-            ohpModel = new WorkoutModel(null, {max: model.get("ohp")}),
-            deadliftModel = new WorkoutModel(null, {max: model.get("deadlift")});
+        let deloadMethod = model.get("deloadMethod");
+
+        var squatModel = new ProgramModel(null, {max: model.get("squat"), deloadMethod}),
+            benchModel = new ProgramModel(null, {max: model.get("bench"), deloadMethod}),
+            ohpModel = new ProgramModel(null, {max: model.get("ohp"), deloadMethod}),
+            deadliftModel = new ProgramModel(null, {max: model.get("deadlift"), deloadMethod});
 
         var workoutsLayout = new WorkoutsLayout({
             squatModel: squatModel,
@@ -48,6 +50,7 @@ var Layout = Marionette.LayoutView.extend({
             + "/bench/" + model.get("bench")
             + "/ohp/" + model.get("ohp")
             + "/deadlift/" + model.get("deadlift")
+            + "/deloadMethod/" + deloadMethod
         );
         this.workouts.show(workoutsLayout);
     }

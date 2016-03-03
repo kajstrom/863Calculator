@@ -58,6 +58,25 @@ describe('ProgramModel', function(){
             expect(week4.get("set2_weight")).toBe(60);
             expect(week4.get("set3_weight")).toBe(72.5);
 
-        })
-    })
+        });
+    });
+
+    describe("deload", () => {
+       it("should give first week weights if 'deload without deload' is configured", () => {
+           var model = new ProgramModel(null, {
+               max: 132.5,
+               deloadMethod: 2
+           });
+
+           let workouts = model.get("workouts");
+
+           let deloadWeek = workouts.at(3);
+           expect(deloadWeek.get("set1_reps")).toBe(6);
+           expect(deloadWeek.get("set1_weight")).toBe(77.5);
+           expect(deloadWeek.get("set2_reps")).toBe(6);
+           expect(deloadWeek.get("set2_weight")).toBe(90);
+           expect(deloadWeek.get("set3_reps")).toBe(6);
+           expect(deloadWeek.get("set3_weight")).toBe(95);
+       })
+    });
 });

@@ -5,7 +5,8 @@ var MaxModel = Backbone.Model.extend({
         squat: 0,
         bench: 0,
         ohp: 0,
-        deadlift: 0
+        deadlift: 0,
+        deloadMethod: 1
     },
 
     notEmpty() {

@@ -4,6 +4,7 @@ const
 
 var ProgramModel = Backbone.Model.extend({
     liftMax: 0,
+    deloadMethod: 1,
     /**
      * @type {Number} The multiplier calculated off each set before the actual percentage calculation is done.
      */
@@ -49,6 +50,7 @@ var ProgramModel = Backbone.Model.extend({
 
     initialize(data, options) {
         this.liftMax = options.max;
+        this.deloadMethod = options.deloadMethod || this.deloadMethod;
         this.set("workouts", new Backbone.Collection());
         this.calculate();
     },
@@ -58,7 +60,7 @@ var ProgramModel = Backbone.Model.extend({
             this._makeWorkout(1, "Week 1"),
             this._makeWorkout(2, "Week 2"),
             this._makeWorkout(3, "Week 3"),
-            this._makeWorkout(4, "Week 4, Deload")
+            this._makeDeloadWorkout("Week 4, Deload")
         ]);
     },
 
@@ -77,6 +79,34 @@ var ProgramModel = Backbone.Model.extend({
             set3_percentage: this.get("week" + number + "_set3_percentage"),
             calculationMax: this._trainingMax()
         })
+    },
+
+    _makeDeloadWorkout(name) {
+        switch (this.deloadMethod) {
+            case 1:
+                return new WorkoutModel({
+                    name: name,
+                    set1_reps: 8,
+                    set1_percentage: 40,
+                    set2_reps: 8,
+                    set2_percentage: 50,
+                    set3_reps: 8,
+                    set3_percentage: 60,
+                    calculationMax: this._trainingMax()
+                });
+            case 2:
+                return new WorkoutModel({
+                    name: name,
+                    set1_reps: 6,
+                    set1_percentage: this.get("week1_set1_percentage"),
+                    set2_reps: 6,
+                    set2_percentage: this.get("week1_set2_percentage"),
+                    set3_reps: 6,
+                    set3_percentage: this.get("week1_set3_percentage"),
+                    calculationMax: this._trainingMax()
+                });
+                break;
+        }
     }
 });
 

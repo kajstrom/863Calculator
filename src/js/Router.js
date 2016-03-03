@@ -5,7 +5,7 @@ var MaxModel = require("./model/MaxModel.js");
 var Router = Marionette.AppRouter.extend({
     routes: {
         "": "emptyForm",
-        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "filledForm"
+        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift/deloadMethod/:deloadMethod": "filledForm"
     },
 
     initialize(options) {
@@ -20,12 +20,13 @@ var Router = Marionette.AppRouter.extend({
         );
     },
 
-    filledForm (squat, bench, ohp, deadlift) {
+    filledForm (squat, bench, ohp, deadlift, deloadMethod) {
         var maxModel = new MaxModel({
             squat: squat,
             bench: bench,
             ohp: ohp,
-            deadlift: deadlift
+            deadlift: deadlift,
+            deloadMethod: parseInt(deloadMethod, 10)
         });
         var layout = new Layout({
             model: maxModel

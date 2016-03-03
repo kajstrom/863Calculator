@@ -89,7 +89,12 @@
 	        bench: "#bench1RM",
 	        squat: "#squat1RM",
 	        ohp: "#ohp1RM",
-	        deadlift: "#deadlift1RM"
+	        deadlift: "#deadlift1RM",
+	        deloadMethod: "#deloadMethod"
+	    },
+
+	    onRender: function onRender() {
+	        this.ui.deloadMethod.val(this.model.get("deloadMethod"));
 	    },
 
 	    calculate: function calculate() {
@@ -97,7 +102,8 @@
 	            bench: this.ui.bench.val(),
 	            squat: this.ui.squat.val(),
 	            ohp: this.ui.ohp.val(),
-	            deadlift: this.ui.deadlift.val()
+	            deadlift: this.ui.deadlift.val(),
+	            deloadMethod: parseInt(this.ui.deloadMethod.val(), 10)
 	        });
 
 	        this.trigger("calculate", this.model);
@@ -14572,7 +14578,7 @@
 
 	var Backbone = __webpack_require__(3);
 	var Marionette = __webpack_require__(4);
-	var WorkoutModel = __webpack_require__(8);
+	var ProgramModel = __webpack_require__(8);
 	var WorkoutsLayout = __webpack_require__(7);
 	var MaxForm = __webpack_require__(1);
 
@@ -14605,10 +14611,12 @@
 	     * @param {Backbone.Model} model Max lifts model used for calculating the workouts.
 	     */
 	    showWorkouts: function showWorkouts(model) {
-	        var squatModel = new WorkoutModel(null, { max: model.get("squat") }),
-	            benchModel = new WorkoutModel(null, { max: model.get("bench") }),
-	            ohpModel = new WorkoutModel(null, { max: model.get("ohp") }),
-	            deadliftModel = new WorkoutModel(null, { max: model.get("deadlift") });
+	        var deloadMethod = model.get("deloadMethod");
+
+	        var squatModel = new ProgramModel(null, { max: model.get("squat"), deloadMethod: deloadMethod }),
+	            benchModel = new ProgramModel(null, { max: model.get("bench"), deloadMethod: deloadMethod }),
+	            ohpModel = new ProgramModel(null, { max: model.get("ohp"), deloadMethod: deloadMethod }),
+	            deadliftModel = new ProgramModel(null, { max: model.get("deadlift"), deloadMethod: deloadMethod });
 
 	        var workoutsLayout = new WorkoutsLayout({
 	            squatModel: squatModel,
@@ -14617,7 +14625,7 @@
 	            deadliftModel: deadliftModel
 	        });
 
-	        Backbone.history.navigate("squat/" + model.get("squat") + "/bench/" + model.get("bench") + "/ohp/" + model.get("ohp") + "/deadlift/" + model.get("deadlift"));
+	        Backbone.history.navigate("squat/" + model.get("squat") + "/bench/" + model.get("bench") + "/ohp/" + model.get("ohp") + "/deadlift/" + model.get("deadlift") + "/deloadMethod/" + deloadMethod);
 	        this.workouts.show(workoutsLayout);
 	    }
 	});
@@ -14637,7 +14645,8 @@
 	        squat: 0,
 	        bench: 0,
 	        ohp: 0,
-	        deadlift: 0
+	        deadlift: 0,
+	        deloadMethod: 1
 	    },
 
 	    notEmpty: function notEmpty() {
@@ -14710,6 +14719,7 @@
 
 	var ProgramModel = Backbone.Model.extend({
 	    liftMax: 0,
+	    deloadMethod: 1,
 	    /**
 	     * @type {Number} The multiplier calculated off each set before the actual percentage calculation is done.
 	     */
@@ -14755,12 +14765,13 @@
 
 	    initialize: function initialize(data, options) {
 	        this.liftMax = options.max;
+	        this.deloadMethod = options.deloadMethod || this.deloadMethod;
 	        this.set("workouts", new Backbone.Collection());
 	        this.calculate();
 	    },
 
 	    calculate: function calculate() {
-	        this.get("workouts").add([this._makeWorkout(1, "Week 1"), this._makeWorkout(2, "Week 2"), this._makeWorkout(3, "Week 3"), this._makeWorkout(4, "Week 4, Deload")]);
+	        this.get("workouts").add([this._makeWorkout(1, "Week 1"), this._makeWorkout(2, "Week 2"), this._makeWorkout(3, "Week 3"), this._makeDeloadWorkout("Week 4, Deload")]);
 	    },
 
 	    _trainingMax: function _trainingMax() {
@@ -14778,6 +14789,34 @@
 	            set3_percentage: this.get("week" + number + "_set3_percentage"),
 	            calculationMax: this._trainingMax()
 	        });
+	    },
+
+	    _makeDeloadWorkout: function _makeDeloadWorkout(name) {
+	        switch (this.deloadMethod) {
+	            case 1:
+	                return new WorkoutModel({
+	                    name: name,
+	                    set1_reps: 8,
+	                    set1_percentage: 40,
+	                    set2_reps: 8,
+	                    set2_percentage: 50,
+	                    set3_reps: 8,
+	                    set3_percentage: 60,
+	                    calculationMax: this._trainingMax()
+	                });
+	            case 2:
+	                return new WorkoutModel({
+	                    name: name,
+	                    set1_reps: 6,
+	                    set1_percentage: this.get("week1_set1_percentage"),
+	                    set2_reps: 6,
+	                    set2_percentage: this.get("week1_set2_percentage"),
+	                    set3_reps: 6,
+	                    set3_percentage: this.get("week1_set3_percentage"),
+	                    calculationMax: this._trainingMax()
+	                });
+	                break;
+	        }
 	    }
 	});
 
@@ -14796,7 +14835,7 @@
 	var Router = Marionette.AppRouter.extend({
 	    routes: {
 	        "": "emptyForm",
-	        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift": "filledForm"
+	        "squat/:squat/bench/:bench/ohp/:ohp/deadlift/:deadlift/deloadMethod/:deloadMethod": "filledForm"
 	    },
 
 	    initialize: function initialize(options) {
@@ -14809,12 +14848,13 @@
 	        }));
 	    },
 
-	    filledForm: function filledForm(squat, bench, ohp, deadlift) {
+	    filledForm: function filledForm(squat, bench, ohp, deadlift, deloadMethod) {
 	        var maxModel = new MaxModel({
 	            squat: squat,
 	            bench: bench,
 	            ohp: ohp,
-	            deadlift: deadlift
+	            deadlift: deadlift,
+	            deloadMethod: parseInt(deloadMethod, 10)
 	        });
 	        var layout = new Layout({
 	            model: maxModel
@@ -16894,7 +16934,7 @@
 	((__t = ( ohp )) == null ? '' : __t) +
 	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deadlift1RM">Deadlift, 1RM</label>\r\n    <input id="deadlift1RM" class="form-control" type="number" value="' +
 	((__t = ( deadlift )) == null ? '' : __t) +
-	'">\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
+	'">\r\n</div>\r\n<div class="form-group">\r\n    <label for="deloadMethod">Deload method</label>\r\n    <select name="deloadMethod" class="form-control" id="deloadMethod">\r\n        <option value="1">Default</option>\r\n        <option value="2">Deload without deload</option>\r\n    </select>\r\n</div>\r\n<div class="form-group">\r\n    <button class="btn btn-primary js-calculate" type="button">\r\n        Calculate\r\n    </button>\r\n    <button class="btn btn-default" type="reset">\r\n        Clear\r\n    </button>\r\n</div>';
 
 	}
 	return __p
