@@ -1,5 +1,5 @@
 var Marionette = require("backbone.marionette");
-var WorkoutTable = require("./WorkoutTable.js");
+var WorkoutTable = require("./ProgramTable.js");
 
 var WorkoutsLayout = Marionette.LayoutView.extend({
     template: require("../templates/workouts-layout-tpl.ejs"),
@@ -21,22 +21,26 @@ var WorkoutsLayout = Marionette.LayoutView.extend({
     onRender () {
         this.squat.show(
             new WorkoutTable({
-                model: this.squatModel
+                model: this.squatModel,
+                collection: this.squatModel.get("workouts")
             })
         );
         this.bench.show(
             new WorkoutTable({
-                model: this.benchModel
+                model: this.benchModel,
+                collection: this.benchModel.get("workouts")
             })
         );
         this.ohp.show(
             new WorkoutTable({
-                model: this.ohpModel
+                model: this.ohpModel,
+                collection: this.ohpModel.get("workouts")
             })
         );
         this.deadlift.show(
             new WorkoutTable({
-                model: this.deadliftModel
+                model: this.deadliftModel,
+                collection: this.deadliftModel.get("workouts")
             })
         );
     }

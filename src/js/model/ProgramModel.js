@@ -49,23 +49,32 @@ var ProgramModel = Backbone.Model.extend({
 
     initialize(data, options) {
         this.liftMax = options.max;
+        this.set("workouts", new Backbone.Collection());
         this.calculate();
     },
 
     calculate() {
         var calculationMax = this.liftMax * this.initialMultiplier;
 
-        for(var week = 1;week <= 4;week++) {
-            this.set("week" + week, new WorkoutModel({
-                set1_reps: this.get("week" + week + "_set1_reps"),
-                set1_percentage: this.get("week" + week + "_set1_percentage"),
-                set2_reps: this.get("week" + week + "_set2_reps"),
-                set2_percentage: this.get("week" + week + "_set2_percentage"),
-                set3_reps: this.get("week" + week + "_set3_reps"),
-                set3_percentage: this.get("week" + week + "_set3_percentage"),
-                calculationMax: calculationMax
-            }));
-        }
+        this.get("workouts").add([
+            this._makeWorkout(1, calculationMax, "Week 1"),
+            this._makeWorkout(2, calculationMax, "Week 2"),
+            this._makeWorkout(3, calculationMax, "Week 3"),
+            this._makeWorkout(4, calculationMax, "Week 4, Deload")
+        ]);
+    },
+
+    _makeWorkout(number, calculationMax, name) {
+        return new WorkoutModel({
+            name: name,
+            set1_reps: this.get("week" + number + "_set1_reps"),
+            set1_percentage: this.get("week" + number + "_set1_percentage"),
+            set2_reps: this.get("week" + number + "_set2_reps"),
+            set2_percentage: this.get("week" + number + "_set2_percentage"),
+            set3_reps: this.get("week" + number + "_set3_reps"),
+            set3_percentage: this.get("week" + number + "_set3_percentage"),
+            calculationMax: calculationMax
+        })
     }
 });
 

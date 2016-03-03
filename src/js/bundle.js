@@ -14658,7 +14658,7 @@
 	"use strict";
 
 	var Marionette = __webpack_require__(4);
-	var WorkoutTable = __webpack_require__(14);
+	var WorkoutTable = __webpack_require__(19);
 
 	var WorkoutsLayout = Marionette.LayoutView.extend({
 	    template: __webpack_require__(15),
@@ -14679,16 +14679,20 @@
 
 	    onRender: function onRender() {
 	        this.squat.show(new WorkoutTable({
-	            model: this.squatModel
+	            model: this.squatModel,
+	            collection: this.squatModel.get("workouts")
 	        }));
 	        this.bench.show(new WorkoutTable({
-	            model: this.benchModel
+	            model: this.benchModel,
+	            collection: this.benchModel.get("workouts")
 	        }));
 	        this.ohp.show(new WorkoutTable({
-	            model: this.ohpModel
+	            model: this.ohpModel,
+	            collection: this.ohpModel.get("workouts")
 	        }));
 	        this.deadlift.show(new WorkoutTable({
-	            model: this.deadliftModel
+	            model: this.deadliftModel,
+	            collection: this.deadliftModel.get("workouts")
 	        }));
 	    }
 	});
@@ -14751,23 +14755,27 @@
 
 	    initialize: function initialize(data, options) {
 	        this.liftMax = options.max;
+	        this.set("workouts", new Backbone.Collection());
 	        this.calculate();
 	    },
 
 	    calculate: function calculate() {
 	        var calculationMax = this.liftMax * this.initialMultiplier;
 
-	        for (var week = 1; week <= 4; week++) {
-	            this.set("week" + week, new WorkoutModel({
-	                set1_reps: this.get("week" + week + "_set1_reps"),
-	                set1_percentage: this.get("week" + week + "_set1_percentage"),
-	                set2_reps: this.get("week" + week + "_set2_reps"),
-	                set2_percentage: this.get("week" + week + "_set2_percentage"),
-	                set3_reps: this.get("week" + week + "_set3_reps"),
-	                set3_percentage: this.get("week" + week + "_set3_percentage"),
-	                calculationMax: calculationMax
-	            }));
-	        }
+	        this.get("workouts").add([this._makeWorkout(1, calculationMax, "Week 1"), this._makeWorkout(2, calculationMax, "Week 2"), this._makeWorkout(3, calculationMax, "Week 3"), this._makeWorkout(4, calculationMax, "Week 4, Deload")]);
+	    },
+
+	    _makeWorkout: function _makeWorkout(number, calculationMax, name) {
+	        return new WorkoutModel({
+	            name: name,
+	            set1_reps: this.get("week" + number + "_set1_reps"),
+	            set1_percentage: this.get("week" + number + "_set1_percentage"),
+	            set2_reps: this.get("week" + number + "_set2_reps"),
+	            set2_percentage: this.get("week" + number + "_set2_percentage"),
+	            set3_reps: this.get("week" + number + "_set3_reps"),
+	            set3_percentage: this.get("week" + number + "_set3_percentage"),
+	            calculationMax: calculationMax
+	        });
 	    }
 	});
 
@@ -16822,33 +16830,7 @@
 	}
 
 /***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var Marionette = __webpack_require__(4);
-
-	var WorkoutTable = Marionette.ItemView.extend({
-	    template: __webpack_require__(18),
-	    tagName: "table",
-	    className: "table",
-
-	    serializeData: function serializeData() {
-	        var attrs = this.model.attributes;
-
-	        attrs.week1 = attrs.week1.toJSON();
-	        attrs.week2 = attrs.week2.toJSON();
-	        attrs.week3 = attrs.week3.toJSON();
-	        attrs.week4 = attrs.week4.toJSON();
-
-	        return attrs;
-	    }
-	});
-
-	module.exports = WorkoutTable;
-
-/***/ },
+/* 14 */,
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -16917,61 +16899,60 @@
 	}
 
 /***/ },
-/* 18 */
+/* 18 */,
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var Marionette = __webpack_require__(4),
+	    WorkoutView = __webpack_require__(20);
+
+	var ProgramTable = Marionette.CollectionView.extend({
+	    tagName: "div",
+	    childView: WorkoutView
+	});
+
+	module.exports = ProgramTable;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var Marionette = __webpack_require__(4);
+
+	var WorkoutView = Marionette.ItemView.extend({
+	    template: __webpack_require__(21),
+	    tagName: "table",
+	    className: "table"
+	});
+
+	module.exports = WorkoutView;
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
 	obj || (obj = {});
 	var __t, __p = '';
 	with (obj) {
-	__p += '<thead>\r\n<th class="active">Week 1</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
-	((__t = ( week1.set1_reps )) == null ? '' : __t) +
+	__p += '<thead>\r\n<th class="active">' +
+	((__t = ( name )) == null ? '' : __t) +
+	'</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
+	((__t = ( set1_reps )) == null ? '' : __t) +
 	' @ ' +
-	((__t = ( week1.set1_weight )) == null ? '' : __t) +
+	((__t = ( set1_weight )) == null ? '' : __t) +
 	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week1.set2_reps )) == null ? '' : __t) +
+	((__t = ( set2_reps )) == null ? '' : __t) +
 	' @ ' +
-	((__t = ( week1.set2_weight )) == null ? '' : __t) +
+	((__t = ( set2_weight )) == null ? '' : __t) +
 	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week1.set3_reps )) == null ? '' : __t) +
+	((__t = ( set3_reps )) == null ? '' : __t) +
 	'+ @ ' +
-	((__t = ( week1.set3_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n</tbody>\r\n<thead>\r\n<th class="active">Week 2</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
-	((__t = ( week2.set1_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week2.set1_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week2.set2_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week2.set2_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week2.set3_reps )) == null ? '' : __t) +
-	'+ @ ' +
-	((__t = ( week2.set3_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n</tbody>\r\n<thead>\r\n<th class="active">Week 3</th>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n    <td>' +
-	((__t = ( week3.set1_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week3.set1_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week3.set2_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week3.set2_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week3.set3_reps )) == null ? '' : __t) +
-	'+ @ ' +
-	((__t = ( week3.set3_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n</tbody>\r\n<th class="active">Week 4, Deload</th>\r\n<tbody>\r\n<tr>\r\n    <td>' +
-	((__t = ( week4.set1_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week4.set1_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week4.set2_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week4.set2_weight )) == null ? '' : __t) +
-	' kg</td>\r\n</tr>\r\n<tr>\r\n    <td>' +
-	((__t = ( week4.set3_reps )) == null ? '' : __t) +
-	' @ ' +
-	((__t = ( week4.set3_weight )) == null ? '' : __t) +
+	((__t = ( set3_weight )) == null ? '' : __t) +
 	' kg</td>\r\n</tr>\r\n</tbody>';
 
 	}
